@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <filter>
+        <filter-name>CrossFilter</filter-name>
+        <filter-class>food.filter.CrossFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CrossFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>UserinfoLoginServlet</servlet-name>
+        <servlet-class>food.servlet.userinfo.LoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserinfoLoginServlet</servlet-name>
+        <url-pattern>/Userinfo/Login</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>UserinfoGetUserServlet</servlet-name>
+        <servlet-class>food.servlet.userinfo.GetUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserinfoGetUserServlet</servlet-name>
+        <url-pattern>/Userinfo/GetUser</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>FoodGetAllServlet</servlet-name>
+        <servlet-class>food.servlet.food.GetAllServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FoodGetAllServlet</servlet-name>
+        <url-pattern>/Food/All</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FoodlikeServlet</servlet-name>
+        <servlet-class>food.servlet.food.FoodlikeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FoodlikeServlet</servlet-name>
+        <url-pattern>/like</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FoodAddServlet</servlet-name>
+        <servlet-class>food.servlet.food.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FoodAddServlet</servlet-name>
+        <url-pattern>/Food/Add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FoodRemoveServlet</servlet-name>
+        <servlet-class>food.servlet.food.RemoveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FoodRemoveServlet</servlet-name>
+        <url-pattern>/Food/Remove</url-pattern>
+    </servlet-mapping>
+
+
+
+    <servlet>
+        <servlet-name>FtypeGetAllServlet</servlet-name>
+        <servlet-class>food.servlet.ftype.GetAllServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FtypeGetAllServlet</servlet-name>
+        <url-pattern>/Ftype/All</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChangeServlet</servlet-name>
+        <servlet-class>food.servlet.food.ChangeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeServlet</servlet-name>
+        <url-pattern>/Food/change</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FidServlet</servlet-name>
+        <servlet-class>food.servlet.food.FidServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FidServlet</servlet-name>
+        <url-pattern>/Food/fid</url-pattern>
+    </servlet-mapping>
+</web-app>

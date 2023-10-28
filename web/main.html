@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/public.js"></script>
+	<style>
+
+		#con{
+			width: 1000px;
+			height: 650px;
+			background-color: chartreuse;
+			margin: 0 auto;
+		}
+
+		#con>.header{
+			height: 50px;
+			background-color: lightcoral;
+		}
+
+		#con>.panel{
+			display:flex;
+		}
+
+		#con>.panel>div{
+			height: 600px;
+		}
+
+		#con>.panel>.left{
+			width: 200px;
+			background-color: bisque;
+		}
+
+		#con>.panel>.right{
+			flex: 1;
+			background-color: lightblue;
+		}
+
+		#con>.panel>.right>iframe{
+			width: 100%;
+			height: 600px;
+			border: 0;
+		}
+
+
+	</style>
+
+
+</head>
+<body>
+<div id="con">
+
+	<div class="header">
+		管理员
+	</div>
+	<div class="panel">
+		<div class="left">
+			<div><a href="./food.html" target="myi">商品列表</a></div>
+			<div><a href="./ftype.html" target="myi">类别列表</a></div>
+		</div>
+		<div class="right">
+
+			<iframe name="myi" src="./food.html"></iframe>
+
+		</div>
+	</div>
+</div>
+
+<script>
+
+	//设置axios使用ajax的时候允许携带cookie
+	axios.defaults.withCredentials = true;
+
+	new Vue({
+
+		data: {
+			msg: '123',
+		},
+		created(){
+			axios.get(userinfoGetUser).then(r=>{
+				console.log(r.data);
+				if(r.data.isOK){
+					this.msg = `管理员:${r.data.loginUser.nickname}`;
+
+				}else{
+					this.msg = r.data.msg;
+				}
+			})
+		},
+
+	}).$mount('#con');
+
+
+</script>
+
+
+</body>
+</html>

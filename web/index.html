@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/public.js"></script>
+	<style>
+		#app{
+			/*height: 600px;*/
+		}
+		#msg{
+			color: red;}
+		body {
+			background-image: url(xx.JPG);
+			background-repeat: no-repeat;
+			background-size: 100% auto;
+		}
+
+		* :not(.bt){
+			font-size: 15px;
+			color: white;
+		}
+		.bt{
+			height: 40px;
+			width: 50px;
+			margin-left: 5px;
+			margin-top: 5px;
+		}
+		h1{
+			font-size: 500px;
+		}
+		.main {
+			width: 60%;
+			height: auto;
+			text-align: center;
+			background: rgb(105, 111, 112, 0.4);
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 10%;
+			border-radius: 20px;
+		}
+
+		.main>h1 {
+			display: block;
+			color: white;
+			padding-top: 3%;
+			font-size: 20px;
+		}
+
+		.main button ,.third a{
+			color: white;
+			width: 50%;
+			height: 30px;
+			font-size: 20px;
+			background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+			font-weight: bold;
+			border: 0;
+			/* border-radius: 20px; */
+			/* margin-top: 30px; */
+			margin-bottom: 30px;
+			display: inline-block;
+			text-decoration: none;
+		}
+
+		.second  {
+			width: 50%;
+			font-size: 20px;
+			background-color: rgba(128,128,128,.5);
+			margin-top: 5px;
+			color: #fff;
+		}
+
+		.main .loin .first i {
+			color: #fff;
+		}
+
+		.last {
+			width: 50%;
+			height: 30px;
+			margin: 0 auto;
+			margin-top: 10px;
+		}
+
+		.main .last input {
+			float: left;
+		}
+
+		.main .last a {
+			display: inline-block;
+			text-decoration: none;
+			font-size: 10px;
+			float: right;
+			color: white;
+		}
+
+		.main .last a:hover {
+			color: blue;
+		}
+
+		#fst1 {
+			display: inline-block;
+			font-size: 10px;
+			float: left;
+		}
+
+		.third {
+			width: 50%;
+			margin: 0 auto;
+		}
+
+		.third a:hover {
+			background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+		}
+
+		.main .loin .first input::-webkit-input-placeholder {
+			color: white;
+		}
+
+		.third button:hover {
+			background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+		}
+
+		.main .loin .first span {
+			font-size: 20px;
+			color: white;
+		}
+
+		.main .loin .first input:focus {
+			background-color: rgb(194, 214, 216);
+		}
+
+		.main .loin .first input[type=text]:focus {
+			outline: none;
+		}
+
+		.main .loin .first input[type=password]:focus {
+			outline: none;
+		}
+	</style>
+</head>
+<body>
+<div class="main">
+
+<div id="app">
+	<h1>Login</h1>
+	<div v-if="isShow">
+		<div id="msg" class="first">{{msg}}</div>
+		<span class="fa fa-github-alt"></span>
+		账号:<input type="text" class="second" v-model="user.usercode"/><br>
+		<span class="fa fa-search"></span>
+		密码:<input type="text" class="second" v-model="user.userpwd"/><br>
+	</div>
+	<div class="third">
+		<input type="button"  class="bt" value="登录" @click="login">
+		<input type="button"  class="bt" value="重置" @click="reset">
+	</div>
+</div>
+</div>
+</div>
+
+
+
+
+<script>
+
+
+	//设置axios使用ajax的时候允许携带cookie
+	axios.defaults.withCredentials = true;
+
+	let v = new Vue({
+
+		data:{
+			isShow: true,
+			msg: '',
+			user:{
+				usercode:'',
+				userpwd:'',
+			},
+			success:'',
+		},
+		methods:{
+			login(){
+				if(this.user.usercode.length==0||this.user.userpwd.length==0){
+					alert("账号密码不能为空");
+					return;
+				}
+				console.log(this.user);
+
+				axios.get(userinfoLogin,{params:this.user}).then(r=>{
+					console.log(r.data);
+					if(r.data.isOK){
+						//this.isShow= false;
+						//this.msg = '登录成功';
+						location.href='./main.html';
+
+					}else {
+						this.msg = '账号或者密码错误';
+					}
+				})
+
+			},
+			reset(){
+				this.user.usercode='';
+				this.user.userpwd='';
+			},
+		},
+
+
+	}).$mount('#app')
+	// function login(){
+	// 	if(user.usercode=""){
+	// 		alert("账号不可为空")
+	// 	}
+	//   if(user.userpwd=""){
+	// 	  alert("密码不可为空")
+	//   }
+	// }
+
+</script>
+
+
+</body>
+</html>

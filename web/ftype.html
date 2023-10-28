@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/public.js"></script>
+	<style>
+		table{
+			border: 1px solid lightblue;
+			width: 100%;
+		}
+
+		table td{
+			text-align: center;
+		}
+
+		thead td{
+			border: 1px solid red;
+			font-weight: 700;
+
+		}
+		tbody td{
+			border: 1px solid green;
+		}
+	</style>
+</head>
+<body>
+
+<div id="apps">
+	<table>
+		<thead>
+		<tr>
+			<td>类别ID</td>
+			<td>类别名字</td>
+		</tr>
+		</thead>
+		<tbody>
+
+		<tr v-for="(ftype,index) of ftypeList" :key="ftype.tid">
+			<td>{{ftype.tid}}</td>
+			<td>{{ftype.tname}}</td>
+			</td>
+		</tr>
+
+
+		</tbody>
+
+
+	</table>
+</div>
+<script>
+
+	//设置axios使用ajax的时候允许携带cookie
+	axios.defaults.withCredentials = true;
+
+	let v = new Vue({
+
+		data:{
+			ftypeList: [],
+		},
+
+
+		created(){
+			axios.get(ftypeAll).then(r=>{
+				this.ftypeList = r.data.list;
+			})
+		},
+
+	}).$mount('#apps')
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/public.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div>信息修改</div>
+    类别:<select v-model="food.tid" id="tid">
+    <option v-for="ftype of ftypeList" :key="ftype.tid" :value="ftype.tid">{{ftype.tname}}</option>
+</select>
+    <hr>
+    名字:
+    <input type="text"  id="fname" v-model = "food.fname">
+    <hr>
+    图片:
+    <input type="file" id="fpic"  /><br />
+    <hr>
+    单价:
+    <input type="text" v-model = "food.fprice" id="fprice">
+    <hr>
+    介绍:
+    <input type="text" v-model = "food.fdesc" id="fdesc">
+    <hr>
+    <button type="button" onclick="actionChange()">修改</button>
+</div>
+
+
+<script type="text/javascript">
+
+
+    //设置axios使用ajax的时候允许携带cookie
+
+    axios.defaults.withCredentials = true;
+
+    var Request=new Object();
+    Request=GetRequest();
+    var fid=Request['fid'];
+
+    let v = new Vue({
+
+        data:{
+            ftypeList:[],
+            food:{
+                tid: '',
+                fname: '',
+                fpic:'',
+                fprice: '',
+                fdesc: '',
+            },
+        },
+        methods:{
+
+        },
+        created(){
+
+            axios.get(ftypeAll).then(r=>{
+                this.ftypeList = r.data.list;
+                this.food.tid = this.ftypeList[0].tid;
+            })
+
+             axios.get("http://localhost:8080/WebFoodProject_war_exploded/Food/fid?fid="+fid).then(r=>{
+                  this.food.tid=r.data.list.tid;
+                  this.food.fname=r.data.list.fname;
+                  this.food.fpic=r.data.list.fpic;
+                  this.food.fprice=r.data.list.fprice;
+                  this.food.fdesc=r.data.list.fdesc;
+             })
+
+
+        },}).$mount('#app')
+
+    function actionChange(){
+        let fd=new FormData();
+        fd.append("fid",fid)
+        fd.append("tid",tid.value)
+        fd.append("fname",fname.value)
+        fd.append("fprice",fprice.value)
+        fd.append("fdesc",fdesc.value)
+        fd.append("file",fpic.files[0]);
+        axios.post("http://localhost:8080/WebFoodProject_war_exploded/Food/change",fd)
+            .then(res=>{
+                if(res.data=="OK"){
+                    alert("修改成功")
+                    location.href='./food.html'
+                }else{
+                    alert("修改失败")
+                }
+            })
+    }
+
+    function GetRequest() {
+
+        var url = location.search;//获取url中"?"符后的字串
+
+        var theRequest =new Object();
+
+        if(url.indexOf("?") != -1) {
+
+            var str = url.substr(1);
+
+            var strs = str.split("&");
+
+            for(var i = 0; i < strs.length; i ++) {
+
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+
+            }
+
+        }
+
+        return theRequest;
+
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/public.js"></script>
+	<style>
+		table{
+			border: 1px solid lightblue;
+			width: 100%;
+		}
+
+		table td{
+			text-align: center;
+		}
+
+		thead td{
+			border: 1px solid red;
+			font-weight: 700;
+
+		}
+		tbody td{
+			border: 1px solid green;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="app">
+		<button @click="add()">食品上架</button>
+		名称：<input id="fname">     价钱： <input id="fprice">  <button @click="searchi()">查询</button><br /><br />
+	<table id="tab">
+		<thead>
+		<tr>
+			<td>食品ID</td>
+			<td>食品类别</td>
+			<td>食品名字</td>
+			<td>食品图片</td>
+			<td>食品单价</td>
+			<td>食品详情</td>
+			<td>注册时间</td>
+			<td>操作</td>
+		</tr>
+		</thead>
+		<tbody>
+
+		<tr v-for="(food,index) of foodList" :key="food.fid">
+			<td>{{food.fid}}</td>
+			<td>{{food.ftype?food.ftype.tname:''}}</td>
+			<td>{{food.fname}}</td>
+			<td><img :src="getpic(food.fpic)" width="100px" height="100px"></td>
+			<td>{{food.fprice}}</td>
+			<td>{{food.fdesc}}</td>
+			<td>{{food.fregtime}}</td>
+			<td>
+				<button @click="change(food.fid)">修改</button>
+				<button @click="remove(food.fid,index)">删除</button>
+			</td>
+		</tr>
+
+
+		</tbody>
+
+
+	</table>
+</div>
+
+
+<script>
+
+	//设置axios使用ajax的时候允许携带cookie
+	axios.defaults.withCredentials = true;
+
+	let v = new Vue({
+
+		data:{
+			foodList: [],
+
+		},
+		methods:{
+			searchi(){
+				axios.get("http://localhost:8080/WebFoodProject_war_exploded/like?fname="+fname.value+"&fprice="+fprice.value)
+						.then(r=>{
+							//把返回来的数据，存储到本地变量上
+							//alert('asd');
+							//let dt=r.data;
+							this.foodList=r.data.list;
+							// let str="";
+							// for (let i = 0; i < dt.length; i++) {
+							// 	str+="<tr><td>"+dt[i].fid+"</td><td>"+dt[i].tid+"</td><td>"+dt[i].fname+"</td><td>"+dt[i].fpic+"</td><td>"+dt[i].fprice+"</td><td>"+dt[i].fdesc+"</td><td><button onclick='del("+dt[i].fid+")'>删除</button> </td> </tr>"
+							// }
+							// document.getElementById("tab").innerHTML+=str;
+						})
+
+			},
+
+			add(){
+				location.href = './food_add.html';
+			},
+			change(fid){
+				location.href='./food_change.html?fid='+fid;
+			},
+			remove(tid,index){
+				if(confirm('确定要删除吗?')){
+					axios.get(foodRemove,{params:{tid,}}).then(r=>{
+						if(r.data.isOK){
+							this.foodList.splice(index,1);
+						}else{
+							alert('删除失败')
+						}
+					})
+				}
+
+			},
+			getpic(a){
+				return "http://localhost:8080/WebFoodProject_war_exploded/foods/"+a;
+			},
+		},
+
+		created(){
+			axios.get(foodAll).then(r=>{
+				this.foodList = r.data.list;
+			})
+		},
+
+	}).$mount('#app')
+
+
+
+
+</script>
+
+
+</body>
+</html>
